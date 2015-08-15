@@ -77,36 +77,47 @@ public class ContainerManager : MonoBehaviour {
 	}
 	#endregion
 
+	// Inventory Control
 	bool isInventoryOpen;
 	bool isCharacterOpen;
 
+	// Database
 	ItemDatabase itemDatabase;
+
+	// Console
 	Console console;
+
+	// Dragging Control
 	bool isDragging;
 	Item draggingItem;
 
+	// Holding Item Control
 	GameObject holdingItemIcon;
 	Vector2 holdingItemIconOffset = new Vector2(-10f, 10f);
 
+	// Tooltip
 	GameObject toolTip;
 
+	// Equipment
 	CharacterEquipment characterEquipment;
 	CharacterEquipmentSlot[] eqSlots;
 
-	int money;
+	// Gold Panel
 	GameObject goldCountPanel;
 	Text[] currencyCount;
+	int money;
 	
 	void Awake()
 	{
 		itemDatabase = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
 		characterEquipment = GameObject.FindGameObjectWithTag("CharacterEquipment").GetComponent<CharacterEquipment>();
-		holdingItemIcon = GameObject.Find("HoldingItemIcon");
 		toolTip = GameObject.FindGameObjectWithTag("ToolTip");
+		goldCountPanel = GameObject.FindGameObjectWithTag("GoldCountPanel");
+
+		holdingItemIcon = GameObject.Find("HoldingItemIcon");
+
 		eqSlots = FindObjectsOfType<CharacterEquipmentSlot>();
 		console = FindObjectOfType<Console>();
-		goldCountPanel = GameObject.FindGameObjectWithTag("GoldCountPanel");
-		currencyCount = goldCountPanel.GetComponentsInChildren<Text>();
 	}
 	
 	void Start () {
@@ -115,6 +126,8 @@ public class ContainerManager : MonoBehaviour {
 
 		holdingItemIcon.GetComponent<CanvasGroup>().alpha = 0f;
 		toolTip.GetComponent<CanvasGroup>().alpha = 0f;
+
+		currencyCount = goldCountPanel.GetComponentsInChildren<Text>();
 
 		console.LogConsole("Welcome!");
 	}
