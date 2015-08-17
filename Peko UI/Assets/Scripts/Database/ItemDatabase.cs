@@ -92,8 +92,8 @@ public class ItemDatabase : MonoBehaviour {
 		// SHIELDS
 		equipmentContainer.Add(new Equipment(27, "Wooden Shield", "E_Wood01", "Item", "", false, 1, ItemType.SHIELD, ItemQuality.COMMON, 200, 80, 0, 0, 0, 0));
 		equipmentContainer.Add(new Equipment(28, "Strenghened Wooden Shield", "E_Wood02", "Item", "", false, 1, ItemType.SHIELD, ItemQuality.COMMON, 1200, 140, 5, 0, 0, 0));
-		equipmentContainer.Add(new Equipment(29, "Heavy Wooden Shield", "Item", "E_Wood03", "", false, 1, ItemType.SHIELD, ItemQuality.COMMON, 4500, 220, 10, 0, 0, 0));
-		equipmentContainer.Add(new Equipment(30, "Forged Wooden Shield", "Item", "E_Wood04", "", false, 1, ItemType.SHIELD, ItemQuality.COMMON, 13800, 317, 17, 0, 0, 0));
+		equipmentContainer.Add(new Equipment(29, "Heavy Wooden Shield", "E_Wood03", "Item", "", false, 1, ItemType.SHIELD, ItemQuality.COMMON, 4500, 220, 10, 0, 0, 0));
+		equipmentContainer.Add(new Equipment(30, "Forged Wooden Shield", "E_Wood04", "Item", "", false, 1, ItemType.SHIELD, ItemQuality.COMMON, 13800, 317, 17, 0, 0, 0));
 		equipmentContainer.Add(new Equipment(31, "Iron Shield", "E_Metal01", "Item", "Common shield made from iron.", false, 1, ItemType.SHIELD, ItemQuality.COMMON, 21000, 317, 17, 0, 0, 0));
 		equipmentContainer.Add(new Equipment(32, "Copper Shield", "E_Metal02", "Item", "What if you add some copper?", false, 1, ItemType.SHIELD, ItemQuality.COMMON, 43000, 520, 33, 0, 0, 0));
 		equipmentContainer.Add(new Equipment(33, "Heavy Iron Shield", "E_Metal03", "Item", "Only some people can have it.", false, 1, ItemType.SHIELD, ItemQuality.UNCOMMON, 92000, 740, 46, 0, 0, 0));
@@ -113,11 +113,11 @@ public class ItemDatabase : MonoBehaviour {
 		weaponsContainer.Add(new Weapon(46, "Two-Handed Copper Blade", "Item", "W_Sword006", "Weared by truly mens", false, 1, ItemType.TWOHAND_WEAPON, ItemQuality.RARE, 34800, 0, 49, 10, 0, 0, 120, 183, WeaponType.SWORD, 2.5f));
 		weaponsContainer.Add(new Weapon(47, "Bone Crusher", "W_Sword005", "Item", "Mmm... Did you hear that?", false, 1, ItemType.ONEHAND_WEAPON, ItemQuality.ARTIFACT, 120000, 0, 30, 25, 0, 0, 94, 117, WeaponType.SWORD, 1.0f));
 		weaponsContainer.Add(new Weapon(48, "Iron Longblade", "W_Sword008", "Item", "Dwarfs helped a lot with that iron.", false, 1, ItemType.ONEHAND_WEAPON, ItemQuality.RARE, 86000, 0, 26, 16, 0, 0, 79, 92, WeaponType.SWORD, 2.0f));
-		weaponsContainer.Add(new Weapon(49, "Two-Handed Iron Blade", "Item", "W_Sword007", "Double hand - double power.", false, 1, ItemType.TWOHAND_WEAPON, ItemQuality.RARE, 142000, 0, 72, 22, 0, 0, 192, 227, WeaponType.SWORD, 2.0f));
+		weaponsContainer.Add(new Weapon(49, "Two-Handed Iron Blade", "W_Sword007", "Item", "Double hand - double power.", false, 1, ItemType.TWOHAND_WEAPON, ItemQuality.RARE, 142000, 0, 72, 22, 0, 0, 192, 227, WeaponType.SWORD, 2.0f));
 		weaponsContainer.Add(new Weapon(50, "Royal Sword", "W_Sword010", "Item", "Weared by best of kingdom knights.", false, 1, ItemType.ONEHAND_WEAPON, ItemQuality.LEGENDARY, 220000, 0, 42, 24, 0, 0, 96, 123, WeaponType.SWORD, 1.5f));
-		weaponsContainer.Add(new Weapon(51, "Two-Handed Royal Blade", "Item", "W_Sword009", "Berserker mode ON!", false, 1, ItemType.TWOHAND_WEAPON, ItemQuality.LEGENDARY, 321600, 0, 94, 36, 0, 0, 260, 340, WeaponType.SWORD, 1.5f));
+		weaponsContainer.Add(new Weapon(51, "Two-Handed Royal Blade", "W_Sword009", "Item", "Berserker mode ON!", false, 1, ItemType.TWOHAND_WEAPON, ItemQuality.LEGENDARY, 321600, 0, 94, 36, 0, 0, 260, 340, WeaponType.SWORD, 1.5f));
 		weaponsContainer.Add(new Weapon(52, "Bone Sword", "W_Sword011", "Item", "From best quality Bones in world.", false, 1, ItemType.ONEHAND_WEAPON, ItemQuality.LEGENDARY, 594000, 0, 55, 30, 0, 0, 111, 131, WeaponType.SWORD, 1.5f));
-		weaponsContainer.Add(new Weapon(53, "Two-Handed Bone Blade", "Item", "W_Sword012", "From best quality Bones in world.", false, 1, ItemType.TWOHAND_WEAPON, ItemQuality.LEGENDARY, 9968270, 0, 117, 48, 0, 0, 310, 415, WeaponType.SWORD, 1.5f));
+		weaponsContainer.Add(new Weapon(53, "Two-Handed Bone Blade", "W_Sword012", "Item", "From best quality Bones in world.", false, 1, ItemType.TWOHAND_WEAPON, ItemQuality.LEGENDARY, 9968270, 0, 117, 48, 0, 0, 310, 415, WeaponType.SWORD, 1.5f));
 		weaponsContainer.Add(new Weapon(54, "Flash Blade", "W_Sword015", "Item", "Energy flow in this Blade.", false, 1, ItemType.ONEHAND_WEAPON, ItemQuality.ARTIFACT, 1000000, 0, 60, 100, 40, 40, 150, 220, WeaponType.SWORD, 0.6f));
 		weaponsContainer.Add(new Weapon(55, "Fire Blade", "W_Sword016", "Item", "Fire occuping whole Blade.", false, 1, ItemType.ONEHAND_WEAPON, ItemQuality.ARTIFACT, 1000000, 0, 80, 40, 40, 40, 150, 220, WeaponType.SWORD, 0.5f));
 		weaponsContainer.Add(new Weapon(56, "Water Blade", "W_Sword017", "Item", "Blade from Water... Interesting...", false, 1, ItemType.ONEHAND_WEAPON, ItemQuality.ARTIFACT, 1000000, 0, 20, 80, 40, 40, 150, 220, WeaponType.SWORD, 0.8f));
