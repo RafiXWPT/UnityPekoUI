@@ -6,7 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 public class ContainerManager : MonoBehaviour {
-
+	
 	#region instance
 	private static ContainerManager instance;
 	public static ContainerManager Instance {
@@ -64,6 +64,15 @@ public class ContainerManager : MonoBehaviour {
 		}
 	}
 
+	public bool IsLootPanelOpen {
+		get {
+			return isLootPanelOpen;
+		}
+		set {
+			isLootPanelOpen = value;
+		}
+	}
+
 	public CharacterEquipmentSlot[] EqSlots {
 		get {
 			return eqSlots;
@@ -80,6 +89,7 @@ public class ContainerManager : MonoBehaviour {
 	// Inventory Control
 	bool isInventoryOpen;
 	bool isCharacterOpen;
+	bool isLootPanelOpen;
 
 	// Database
 	ItemDatabase itemDatabase;
@@ -102,11 +112,17 @@ public class ContainerManager : MonoBehaviour {
 	CharacterEquipment characterEquipment;
 	CharacterEquipmentSlot[] eqSlots;
 
+	// LootPanel
+	GameObject lootPanel;
+
+	// Inventory
+	Container inventory;
+
 	// Gold Panel
 	GameObject goldCountPanel;
 	Text[] currencyCount;
 	int money;
-	
+
 	void Awake()
 	{
 		itemDatabase = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
@@ -114,7 +130,11 @@ public class ContainerManager : MonoBehaviour {
 		toolTip = GameObject.FindGameObjectWithTag("ToolTip");
 		goldCountPanel = GameObject.FindGameObjectWithTag("GoldCountPanel");
 
+		lootPanel = GameObject.FindGameObjectWithTag("LootPanel");
+
 		holdingItemIcon = GameObject.Find("HoldingItemIcon");
+
+		inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Container>();
 
 		eqSlots = FindObjectsOfType<CharacterEquipmentSlot>();
 		console = FindObjectOfType<Console>();
@@ -129,7 +149,56 @@ public class ContainerManager : MonoBehaviour {
 
 		currencyCount = goldCountPanel.GetComponentsInChildren<Text>();
 
+		lootPanel.SetActive(false);
+
 		console.LogConsole("Welcome!");
+	}
+
+	public void ShowLootWindow(List<Item> items)
+	{
+		lootPanel.SetActive(true);
+		lootPanel.GetComponentInChildren<Container>().containerItems = items;
+		lootPanel.GetComponentInChildren<Container>().ReLoad();
+	}
+
+	public void CollectAll()
+	{
+		Container loot = lootPanel.GetComponentInChildren<Container>();
+
+		for(int i = 0; i < loot.containerItems.Count; i++)
+		{
+			if(loot.containerItems[i].ItemType != ItemType.NULL)
+			{
+				if(loot.containerItems[i].ItemType == ItemType.CURRENCY)
+				{
+					AddMoney(loot.containerItems[i].ItemAmount*loot.containerItems[i].ItemCost);
+					loot.containerItems[i] = new Item();
+				}
+				else
+				{
+					if(loot.containerItems[i].IsStackable)
+					{
+						if(inventory.AddItemToContainer(loot.containerItems[i].ItemId,loot.containerItems[i].ItemAmount))
+						{
+							loot.containerItems[i] = new Item();
+						}
+					}
+					else
+					{
+						if(inventory.AddItemToContainer(loot.containerItems[i].ItemId,1))
+						{
+							loot.containerItems[i] = new Item();
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void DestroyLootWindow()
+	{
+		lootPanel.SetActive(false);
+		isLootPanelOpen = false;
 	}
 
 	public void ShowHoldingItemIcon(Vector2 position)

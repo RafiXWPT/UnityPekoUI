@@ -65,6 +65,7 @@ GameObject:
   - 222: {fileID: 22292766}
   - 114: {fileID: 11484584}
   - 114: {fileID: 11456952}
+  - 225: {fileID: 22510588}
   m_Layer: 5
   m_Name: HotKeyBarSlot
   m_TagString: HotKeyBarSlot
@@ -283,6 +284,17 @@ CanvasGroup:
   m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!225 &22510588
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167232}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!225 &22514492
 CanvasGroup:

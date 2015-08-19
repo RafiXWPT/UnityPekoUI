@@ -6,13 +6,10 @@ public class Container : ContainerManager {
 
 	public GameObject slot;
 	public int slotCount;
-	public List<Item> containerItems;
-	List<GameObject> slotObjects;
+	public List<Item> containerItems = new List<Item>();
+	List<GameObject> slotObjects = new List<GameObject>();
 	
 	void Start () {
-
-		containerItems = new List<Item>();
-		slotObjects = new List<GameObject>();
 	
 		for(int i = 0; i < slotCount; i ++)
 		{
@@ -25,6 +22,23 @@ public class Container : ContainerManager {
 			containerItems.Add(new Item());
 		}
 		
+	}
+
+	public void ReLoad()
+	{
+		foreach(GameObject slotobj in slotObjects)
+			Destroy(slotobj);
+
+		slotObjects.Clear();
+		for(int i = 0; i < containerItems.Count; i++)
+		{
+			GameObject tmpSlot = Instantiate(slot) as GameObject;
+			tmpSlot.name = "Slot"+i;
+			tmpSlot.GetComponent<ContainerSlot>().id = i;
+			tmpSlot.transform.SetParent(this.transform);
+
+			slotObjects.Add(tmpSlot);
+		}
 	}
 
 	public bool AddItemToContainer(int item_id, int amount)
@@ -102,4 +116,5 @@ public class Container : ContainerManager {
 		}
 		return false;
 	}
+
 }
