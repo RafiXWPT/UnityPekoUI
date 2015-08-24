@@ -21,6 +21,5 @@ public class PlayerGUIController : MonoBehaviour {
 		{
 			ContainerManager.Instance.CloseLastPanel();
 		}
-
 	}
 }

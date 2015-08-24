@@ -166,6 +166,10 @@ public class ContainerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 			ContainerManager.Instance.WearItem(this, eventData.pointerEnter.GetComponent<CharacterEquipmentSlot>());
 			ContainerManager.Instance.DraggingItem = null;
 		}
+		else if(eventData.pointerEnter == null)
+		{
+			ContainerManager.Instance.DropItem(this);
+		}
 
 	}
 	

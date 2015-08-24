@@ -84,6 +84,7 @@ public class ContainerManager : MonoBehaviour {
 	// Inventory & character pannels
 	GameObject inventoryPanel;
 	GameObject characterPanel;
+	GameObject itemDestroyPanel;
 
 	// Database
 	ItemDatabase itemDatabase;
@@ -124,6 +125,7 @@ public class ContainerManager : MonoBehaviour {
 	{
 		inventoryPanel = GameObject.Find("InventoryPanel");
 		characterPanel = GameObject.Find("CharacterPanel");
+		itemDestroyPanel = GameObject.Find("DestroyItemPanel");
 
 		itemDatabase = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
 		characterEquipment = GameObject.FindGameObjectWithTag("CharacterEquipment").GetComponent<CharacterEquipment>();
@@ -152,7 +154,18 @@ public class ContainerManager : MonoBehaviour {
 		lootPanel.SetActive(false);
 		inventoryPanel.SetActive(false);
 		characterPanel.SetActive(false);
+		itemDestroyPanel.SetActive(false);
 		console.LogConsole("Welcome!");
+	}
+
+	public void DropItem(ContainerSlot itemToDrop)
+	{
+		itemDestroyPanel.SetActive(true);
+		DestroyItemWindow destroyWindow = itemDestroyPanel.GetComponent<DestroyItemWindow>();
+		destroyWindow.StopCoroutine("WindowTimer");
+		destroyWindow.itemToDrop = itemToDrop;
+		destroyWindow.SetUp();
+		destroyWindow.StartCoroutine("WindowTimer");
 	}
 
 	public void OpenCloseInventory()
