@@ -46,24 +46,6 @@ public class ContainerManager : MonoBehaviour {
 		}
 	}
 
-	public bool IsInventoryOpen {
-		get {
-			return isInventoryOpen;
-		}
-		set {
-			isInventoryOpen = value;
-		}
-	}
-
-	public bool IsCharacterOpen {
-		get {
-			return isCharacterOpen;
-		}
-		set {
-			isCharacterOpen = value;
-		}
-	}
-
 	public bool IsLootPanelOpen {
 		get {
 			return isLootPanelOpen;
@@ -84,12 +66,24 @@ public class ContainerManager : MonoBehaviour {
 			return console;
 		}
 	}
+
+	public List<GameObject> PannelsOpened {
+		get {
+			return pannelsOpened;
+		}
+		set {
+			pannelsOpened = value;
+		}
+	}
+
 	#endregion
 
 	// Inventory Control
-	bool isInventoryOpen;
-	bool isCharacterOpen;
 	bool isLootPanelOpen;
+
+	// Inventory & character pannels
+	GameObject inventoryPanel;
+	GameObject characterPanel;
 
 	// Database
 	ItemDatabase itemDatabase;
@@ -123,8 +117,14 @@ public class ContainerManager : MonoBehaviour {
 	Text[] currencyCount;
 	int money;
 
+	// PannelsOpenHierarchy
+	List<GameObject> pannelsOpened = new List<GameObject>();
+
 	void Awake()
 	{
+		inventoryPanel = GameObject.Find("InventoryPanel");
+		characterPanel = GameObject.Find("CharacterPanel");
+
 		itemDatabase = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
 		characterEquipment = GameObject.FindGameObjectWithTag("CharacterEquipment").GetComponent<CharacterEquipment>();
 		toolTip = GameObject.FindGameObjectWithTag("ToolTip");
@@ -150,15 +150,65 @@ public class ContainerManager : MonoBehaviour {
 		currencyCount = goldCountPanel.GetComponentsInChildren<Text>();
 
 		lootPanel.SetActive(false);
-
+		inventoryPanel.SetActive(false);
+		characterPanel.SetActive(false);
 		console.LogConsole("Welcome!");
 	}
 
-	public void ShowLootWindow(List<Item> items)
+	public void OpenCloseInventory()
 	{
+		if(inventoryPanel.activeSelf)
+		{
+			pannelsOpened.Remove(inventoryPanel);
+			inventoryPanel.SetActive(false);
+		}
+		else
+		{
+			pannelsOpened.Add(inventoryPanel);
+			inventoryPanel.SetActive(true);
+		}
+	}
+
+	public void OpenCloseCharacter()
+	{
+		if(characterPanel.activeSelf)
+		{
+			pannelsOpened.Remove(characterPanel);
+			characterPanel.SetActive(false);
+		}
+		else
+		{
+			pannelsOpened.Add(characterPanel);
+			characterPanel.SetActive(true);
+		}
+	}
+
+	public void CloseLastPanel()
+	{
+		if(pannelsOpened.Count > 0)
+		{
+			pannelsOpened[pannelsOpened.Count-1].SetActive(false);
+			pannelsOpened.RemoveAt(pannelsOpened.Count-1);
+		}
+		else
+		{
+			Debug.Log("Otwieram Main Menu.");
+		}
+	}
+
+	public void CreateLootWindow(List<Item> items)
+	{
+		pannelsOpened.Add(lootPanel);
 		lootPanel.SetActive(true);
 		lootPanel.GetComponentInChildren<Container>().containerItems = items;
 		lootPanel.GetComponentInChildren<Container>().ReLoad();
+	}
+
+	public void DestroyLootWindow()
+	{
+		pannelsOpened.Remove(lootPanel);
+		lootPanel.SetActive(false);
+		isLootPanelOpen = false;
 	}
 
 	public void CollectAll()
@@ -193,12 +243,6 @@ public class ContainerManager : MonoBehaviour {
 				}
 			}
 		}
-	}
-
-	public void DestroyLootWindow()
-	{
-		lootPanel.SetActive(false);
-		isLootPanelOpen = false;
 	}
 
 	public void ShowHoldingItemIcon(Vector2 position)

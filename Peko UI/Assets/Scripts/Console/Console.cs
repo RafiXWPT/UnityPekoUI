@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class Console : MonoBehaviour {
 
 	public GameObject line;
-	List<GameObject> messages;
+	List<GameObject> messages = new List<GameObject>();
 	int lineCount = 0;
 	
 	void Start () {
-		messages = new List<GameObject>();
+
 	}
 
 	void Update () {

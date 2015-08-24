@@ -173,7 +173,7 @@ public class CharacterEquipment : MonoBehaviour {
 	int baseStamina;
 	
 	public GameObject statsValues;
-	List<CharacterEquipmentSlot> equipmentSlots;
+	//List<CharacterEquipmentSlot> equipmentSlots;
 	Text[] statsText;
 	
 	void Start () {
@@ -201,7 +201,7 @@ public class CharacterEquipment : MonoBehaviour {
 		intelligence = baseIntelligence;
 		stamina = baseStamina;
 
-		foreach(CharacterEquipmentSlot slot in ContainerManager.Instance.EqSlots/*GetComponentsInChildren<CharacterEquipmentSlot>()*/)
+		foreach(CharacterEquipmentSlot slot in ContainerManager.Instance.EqSlots)
 		{
 			if(slot.Item.ItemType != ItemType.NULL)
 			{

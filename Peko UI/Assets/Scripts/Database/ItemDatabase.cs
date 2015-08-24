@@ -4,15 +4,15 @@ using System.Linq;
 
 [System.Serializable]
 public class ItemDatabase : MonoBehaviour {
-
+	
 	[SerializeField]
-	List<Equipment> equipmentContainer;
+	List<Equipment> equipmentContainer = new List<Equipment>();
 	[SerializeField]
-	List<Weapon> weaponsContainer;
+	List<Weapon> weaponsContainer = new List<Weapon>();
 	[SerializeField]
-	List<Consumable> consumablesContainer;
+	List<Consumable> consumablesContainer = new List<Consumable>();
 	[SerializeField]
-	List<Currency> currencyContainer;
+	List<Currency> currencyContainer = new List<Currency>();
 
 	public List<Equipment> Equipments {
 		get {
@@ -52,11 +52,6 @@ public class ItemDatabase : MonoBehaviour {
 
 	void Start()
 	{
-		equipmentContainer = new List<Equipment>();
-		weaponsContainer = new List<Weapon>();
-		consumablesContainer = new List<Consumable>();
-		currencyContainer = new List<Currency>();
-
 		// CURRENCY
 		currencyContainer.Add(new Currency(0,	"Brone Coin",	"I_BronzeCoin", "Item",	"A little shining bronze coin.",	true,	999,	ItemType.CURRENCY,	ItemQuality.COMMON,	1));
 		currencyContainer.Add(new Currency(1,	"Silver Coin",	"I_SilverCoin", "Item",	"A little shining silver coin.",	true,	999,	ItemType.CURRENCY,	ItemQuality.COMMON,	100));

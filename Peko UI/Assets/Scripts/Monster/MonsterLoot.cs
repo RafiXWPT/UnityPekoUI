@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
@@ -42,7 +42,7 @@ public class MonsterLoot : MonoBehaviour {
 	void OnMouseOver()
 	{
 		if(Input.GetMouseButtonDown(1) && canBeOpen && !EventSystem.current.IsPointerOverGameObject()) {
-			ContainerManager.Instance.ShowLootWindow(this.lootItems);
+			ContainerManager.Instance.CreateLootWindow(this.lootItems);
 			ContainerManager.Instance.IsLootPanelOpen = true;
 			isOpen = true;
 		}
