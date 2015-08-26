@@ -109,6 +109,10 @@ public class ContainerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 		if(eventData.button.Equals(PointerEventData.InputButton.Right))
 		{
+			Debug.Log("WTF?");
+			Debug.Log(clicked.ItemType);
+			Debug.Log(clicked.ItemAmount);
+
 			if(isOnDestroy)
 				return;
 

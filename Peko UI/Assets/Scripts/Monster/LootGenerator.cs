@@ -13,6 +13,11 @@ public class LootGenerator : MonoBehaviour {
 		}
 	}
 
+	void Awake()
+	{
+
+	}
+
 	void Start () {
 		monster = GameObject.FindGameObjectWithTag("MonsterDatabase").GetComponent<MonsterDatabase>().GetMonsterFromDatabase(monsterId).GetClone();
 	}

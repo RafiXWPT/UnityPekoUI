@@ -8,9 +8,14 @@ public class DestroyItemWindow : MonoBehaviour {
 	public Text text;
 	public Image image;
 	public ContainerSlot itemToDrop;
-	
-	void Start () {
+
+	void Awake()
+	{
 		slider = this.GetComponentInChildren<Slider>();
+	}
+
+	void Start () {
+
 	}
 
 	void Update () {

@@ -6,7 +6,7 @@ public class Container : ContainerManager {
 
 	public GameObject slot;
 	public int slotCount;
-	public List<Item> containerItems = new List<Item>();
+	public List<Item> containerItems;
 
 	[SerializeField]
 	bool isInventory;
@@ -17,8 +17,14 @@ public class Container : ContainerManager {
 		}
 	}
 
-	List<GameObject> slotObjects = new List<GameObject>();
-	
+	List<GameObject> slotObjects;
+
+	void Awake()
+	{
+		containerItems = new List<Item>();
+		slotObjects = new List<GameObject>();
+	}
+
 	void Start () {
 	
 		for(int i = 0; i < slotCount; i ++)

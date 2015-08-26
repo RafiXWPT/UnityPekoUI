@@ -5,9 +5,14 @@ public class SimulateDrop : MonoBehaviour {
 
 	Container inventory;
 
+	void Awake()
+	{
+		inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Container>();
+	}
+
 	// Use this for initialization
 	void Start () {
-		inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Container>();
+
 	}
 	
 	// Update is called once per frame

@@ -6,8 +6,12 @@ using UnityEngine.UI;
 public class HotKeyBar : MonoBehaviour {
 
 	public GameObject slot;
-	List<GameObject> slotObjects = new List<GameObject>();
-	
+	List<GameObject> slotObjects;
+
+	void Awake() {
+		slotObjects = new List<GameObject>();
+	}
+
 	void Start () {
 
 		for(int i = 0; i < 10; i ++)

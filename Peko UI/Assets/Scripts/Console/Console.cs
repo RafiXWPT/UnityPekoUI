@@ -6,15 +6,12 @@ using UnityEngine.UI;
 public class Console : MonoBehaviour {
 
 	public GameObject line;
-	List<GameObject> messages = new List<GameObject>();
+	List<GameObject> messages;
 	int lineCount = 0;
-	
-	void Start () {
 
-	}
-
-	void Update () {
-	
+	void Awake()
+	{
+		messages = new List<GameObject>();
 	}
 
 	public void LogConsole(string message)

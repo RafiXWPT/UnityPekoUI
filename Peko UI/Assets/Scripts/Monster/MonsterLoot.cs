@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class MonsterLoot : MonoBehaviour {
 	
 	[SerializeField]
-	List<Item> lootItems = new List<Item>();
+	List<Item> lootItems;
 
 	bool canBeOpen = false;
 	bool isOpen = false;
@@ -20,6 +20,11 @@ public class MonsterLoot : MonoBehaviour {
 		set {
 			lootItems = value;
 		}
+	}
+
+	void Awake()
+	{
+		lootItems = new List<Item>();
 	}
 
 	void Update()

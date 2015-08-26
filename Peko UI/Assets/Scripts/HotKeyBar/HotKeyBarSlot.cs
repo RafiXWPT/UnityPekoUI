@@ -10,7 +10,10 @@ public class HotKeyBarSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 	public Item Item {
 		get {
-			return item;
+			if (item == null)
+				return new Item();
+			else
+				return item;
 		}
 		set {
 			item = value;
@@ -28,12 +31,12 @@ public class HotKeyBarSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 	void Awake()
 	{
+		item = new Item();
 		icon = transform.GetChild(0).GetComponent<Image>();
 		amount = transform.GetChild(1).GetComponent<Text>();
 	}
 	
 	void Start () {
-		this.item = new Item();
 		icon.enabled = false;
 		amount.enabled = false;
 	}

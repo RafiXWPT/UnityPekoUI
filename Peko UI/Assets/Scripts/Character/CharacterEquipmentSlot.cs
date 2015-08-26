@@ -8,10 +8,13 @@ public class CharacterEquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPoin
 	public ItemType equipmentPart;
 	public Sprite backgroundImage;
 
-	Item item = new Item();
+	Item item;
 	public Item Item {
 		get {
-			return item;
+			if(item == null)
+				return new Item();
+			else
+				return item;
 		}
 		set {
 			item = value;
@@ -28,9 +31,14 @@ public class CharacterEquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPoin
 	bool isDragging;
 
 	Image icon;
-	
-	void Start () {
+
+	void Awake()
+	{
+		item = new Item();
 		icon = transform.GetChild(0).GetComponent<Image>();
+	}
+
+	void Start () {
 		icon.sprite = backgroundImage;
 	}
 

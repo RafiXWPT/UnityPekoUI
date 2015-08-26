@@ -119,16 +119,18 @@ public class ContainerManager : MonoBehaviour {
 	int money;
 
 	// PannelsOpenHierarchy
-	List<GameObject> pannelsOpened = new List<GameObject>();
+	List<GameObject> pannelsOpened;
 
 	void Awake()
 	{
+		pannelsOpened = new List<GameObject>();
+
 		inventoryPanel = GameObject.Find("InventoryPanel");
 		characterPanel = GameObject.Find("CharacterPanel");
 		itemDestroyPanel = GameObject.Find("DestroyItemPanel");
 
 		itemDatabase = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
-		characterEquipment = GameObject.FindGameObjectWithTag("CharacterEquipment").GetComponent<CharacterEquipment>();
+
 		toolTip = GameObject.FindGameObjectWithTag("ToolTip");
 		goldCountPanel = GameObject.FindGameObjectWithTag("GoldCountPanel");
 
@@ -136,12 +138,14 @@ public class ContainerManager : MonoBehaviour {
 
 		holdingItemIcon = GameObject.Find("HoldingItemIcon");
 
-		inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Container>();
+
 
 
 	}
 	
 	void Start () {
+		characterEquipment = GameObject.FindGameObjectWithTag("CharacterEquipment").GetComponent<CharacterEquipment>();
+		inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Container>();
 
 		eqSlots = FindObjectsOfType<CharacterEquipmentSlot>();
 		console = FindObjectOfType<Console>();

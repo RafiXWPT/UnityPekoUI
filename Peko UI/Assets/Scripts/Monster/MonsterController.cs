@@ -8,6 +8,11 @@ public class MonsterController : MonoBehaviour {
 
 	MonsterLoot monsterLoot;
 
+	void Awake()
+	{
+
+	}
+
 	void Start () {
 		corpse = GetComponent<LootGenerator>().Monster.MonsterCorpse;
 		monsterName = GetComponent<LootGenerator>().Monster.MonsterName;

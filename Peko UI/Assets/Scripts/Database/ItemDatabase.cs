@@ -6,13 +6,13 @@ using System.Linq;
 public class ItemDatabase : MonoBehaviour {
 	
 	[SerializeField]
-	List<Equipment> equipmentContainer = new List<Equipment>();
+	List<Equipment> equipmentContainer;
 	[SerializeField]
-	List<Weapon> weaponsContainer = new List<Weapon>();
+	List<Weapon> weaponsContainer;
 	[SerializeField]
-	List<Consumable> consumablesContainer = new List<Consumable>();
+	List<Consumable> consumablesContainer;
 	[SerializeField]
-	List<Currency> currencyContainer = new List<Currency>();
+	List<Currency> currencyContainer;
 
 	public List<Equipment> Equipments {
 		get {
@@ -48,6 +48,14 @@ public class ItemDatabase : MonoBehaviour {
 		set {
 			currencyContainer = value;
 		}
+	}
+
+	void Awake()
+	{
+		equipmentContainer = new List<Equipment>();
+		weaponsContainer = new List<Weapon>();
+		consumablesContainer = new List<Consumable>();
+		currencyContainer = new List<Currency>();
 	}
 
 	void Start()

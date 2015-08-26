@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class MonsterDatabase : MonoBehaviour {
 
 	[SerializeField]
-	List<Monster> monsterContainer = new List<Monster>();
+	List<Monster> monsterContainer;
 
 	public List<Monster> MonsterContainer {
 		get {
@@ -14,6 +14,11 @@ public class MonsterDatabase : MonoBehaviour {
 		set {
 			monsterContainer = value;
 		}
+	}
+
+	void Awake()
+	{
+		monsterContainer = new List<Monster>();
 	}
 
 	void Start () {
