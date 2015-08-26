@@ -23,7 +23,7 @@ public class Container : ContainerManager {
 	
 		for(int i = 0; i < slotCount; i ++)
 		{
-			GameObject tmpSlot = Instantiate(slot) as GameObject;
+			GameObject tmpSlot = (GameObject)Instantiate(slot);
 			tmpSlot.name = "Slot"+i;
 			tmpSlot.GetComponent<ContainerSlot>().id = i;
 			tmpSlot.transform.SetParent(this.transform);
@@ -42,7 +42,7 @@ public class Container : ContainerManager {
 		slotObjects.Clear();
 		for(int i = 0; i < containerItems.Count; i++)
 		{
-			GameObject tmpSlot = Instantiate(slot) as GameObject;
+			GameObject tmpSlot = (GameObject)Instantiate(slot);
 			tmpSlot.name = "Slot"+i;
 			tmpSlot.GetComponent<ContainerSlot>().id = i;
 			tmpSlot.transform.SetParent(this.transform);

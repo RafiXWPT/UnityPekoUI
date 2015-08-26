@@ -17,6 +17,16 @@ public class ContainerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		}
 	}
 
+	public bool IsOnDestroy {
+		get {
+			return isOnDestroy;
+		}
+		set {
+			isOnDestroy = value;
+		}
+	}
+
+	bool isOnDestroy;
 	Image icon;
 	Text amount;
 
@@ -62,11 +72,20 @@ public class ContainerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 			icon.enabled = true;
 		}
 
-		if(isDragging)
+		if(isDragging || isOnDestroy)
 		{
-			icon.color = draggedColor;
-			GetComponent<Image>().color = draggedColor;
+			ColorAsDragged();
 		}
+	}
+
+	public void ColorAsDragged(){
+		icon.color = draggedColor;
+		GetComponent<Image>().color = draggedColor;
+	}
+
+	public void ColorAsNormal(){
+		icon.color = normalColor;
+		GetComponent<Image>().color = normalColor;
 	}
 	
 	public void OnPointerEnter (PointerEventData eventData)
@@ -90,6 +109,9 @@ public class ContainerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 		if(eventData.button.Equals(PointerEventData.InputButton.Right))
 		{
+			if(isOnDestroy)
+				return;
+
 			clicked.Use(this);
 			if(clicked.ItemAmount < 1)
 			{
@@ -140,8 +162,7 @@ public class ContainerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		ContainerManager.Instance.HideHoldingItemIcon();
 		isDragging = false;
 
-		icon.color = normalColor;
-		GetComponent<Image>().color = normalColor;
+		ColorAsNormal();
 
 		if(eventData.pointerEnter != null && eventData.pointerEnter.tag == "ContainerSlot")
 		{
@@ -169,6 +190,7 @@ public class ContainerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		else if(eventData.pointerEnter == null)
 		{
 			ContainerManager.Instance.DropItem(this);
+			isOnDestroy = true;
 		}
 
 	}

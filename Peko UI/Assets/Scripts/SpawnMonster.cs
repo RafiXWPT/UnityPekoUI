@@ -10,7 +10,7 @@ public class SpawnMonster : MonoBehaviour {
 
 		foreach(string monsterName in monsters)
 		{
-			GameObject monster = Instantiate(Resources.Load("Prefabs/Monsters/"+monsterName)) as GameObject;
+			GameObject monster = (GameObject)Instantiate(Resources.Load("Prefabs/Monsters/"+monsterName));
 			monster.transform.SetParent(GameObject.Find("Monsters").transform);
 		}
 	}

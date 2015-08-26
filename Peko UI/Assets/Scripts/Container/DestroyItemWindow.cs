@@ -11,7 +11,6 @@ public class DestroyItemWindow : MonoBehaviour {
 	
 	void Start () {
 		slider = this.GetComponentInChildren<Slider>();
-		//StartCoroutine("WindowTimer");
 	}
 
 	void Update () {
@@ -20,18 +19,23 @@ public class DestroyItemWindow : MonoBehaviour {
 	public void SetUp()
 	{
 		image.sprite = itemToDrop.Container.containerItems[itemToDrop.id].ItemIcon;
-		text.text = string.Format("Do you really want to destroy: <b>{0}</b>?", itemToDrop.Container.containerItems[itemToDrop.id].ItemName);
+		text.text = string.Format("Do you really want to destroy: <b>{0}x {1}</b>?", itemToDrop.Container.containerItems[itemToDrop.id].ItemAmount, itemToDrop.Container.containerItems[itemToDrop.id].ItemName);
 	}
 
 	public IEnumerator WindowTimer()
 	{
+		this.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+		this.transform.SetAsLastSibling();
 		slider.value = 0f;
-		while(slider.value < 10f)
+		itemToDrop.IsOnDestroy = true;
+		while(slider.value < 10f && !ContainerManager.Instance.IsDragging)
 		{
 			slider.value += 0.1f;
 			yield return new WaitForSeconds(0.1f);
 		}
 		this.gameObject.SetActive(false);
+		itemToDrop.IsOnDestroy = false;
+		itemToDrop.ColorAsNormal();
 		yield return null;
 	}
 
@@ -40,11 +44,15 @@ public class DestroyItemWindow : MonoBehaviour {
 		StopCoroutine("WindowTimer");
 		itemToDrop.Container.containerItems[itemToDrop.id] = new Item();
 		this.gameObject.SetActive(false);
+		itemToDrop.IsOnDestroy = false;
+		itemToDrop.ColorAsNormal();
 	}
 
 	public void No()
 	{
 		StopCoroutine("WindowTimer");
 		this.gameObject.SetActive(false);
+		itemToDrop.IsOnDestroy = false;
+		itemToDrop.ColorAsNormal();
 	}
 }

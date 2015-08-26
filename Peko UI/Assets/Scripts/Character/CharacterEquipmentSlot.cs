@@ -8,7 +8,7 @@ public class CharacterEquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPoin
 	public ItemType equipmentPart;
 	public Sprite backgroundImage;
 
-	Item item;
+	Item item = new Item();
 	public Item Item {
 		get {
 			return item;
@@ -30,7 +30,6 @@ public class CharacterEquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPoin
 	Image icon;
 	
 	void Start () {
-		item = new Item();
 		icon = transform.GetChild(0).GetComponent<Image>();
 		icon.sprite = backgroundImage;
 	}

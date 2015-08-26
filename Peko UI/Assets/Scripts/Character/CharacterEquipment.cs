@@ -173,12 +173,14 @@ public class CharacterEquipment : MonoBehaviour {
 	int baseStamina;
 	
 	public GameObject statsValues;
-	//List<CharacterEquipmentSlot> equipmentSlots;
 	Text[] statsText;
+
+	void Awake()
+	{
+		statsText = statsValues.GetComponentsInChildren<Text>();
+	}
 	
 	void Start () {
-		statsText = statsValues.GetComponentsInChildren<Text>();
-
 		baseDamageFrom = 0;
 		baseDamageTo = 10;
 		baseSpeed = 2.5f;

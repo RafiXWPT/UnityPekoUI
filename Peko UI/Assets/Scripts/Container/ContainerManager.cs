@@ -138,11 +138,14 @@ public class ContainerManager : MonoBehaviour {
 
 		inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Container>();
 
-		eqSlots = FindObjectsOfType<CharacterEquipmentSlot>();
-		console = FindObjectOfType<Console>();
+
 	}
 	
 	void Start () {
+
+		eqSlots = FindObjectsOfType<CharacterEquipmentSlot>();
+		console = FindObjectOfType<Console>();
+
 		isDragging = false;
 		draggingItem = null;
 
