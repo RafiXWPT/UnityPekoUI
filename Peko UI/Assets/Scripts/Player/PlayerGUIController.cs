@@ -4,10 +4,6 @@ using UnityEngine.UI;
 
 public class PlayerGUIController : MonoBehaviour {
 
-	void Start () {
-
-	}
-
 	void Update () {
 
 		if(Input.GetKeyDown(KeyCode.I)){
@@ -15,6 +11,10 @@ public class PlayerGUIController : MonoBehaviour {
 		}
 		else if(Input.GetKeyDown(KeyCode.C)){
 			ContainerManager.Instance.OpenCloseCharacter();
+		}
+		else if(Input.GetKeyDown(KeyCode.U))
+		{
+			ContainerManager.Instance.OpenCloseCrafting();
 		}
 
 		if(Input.GetKeyDown(KeyCode.Escape))

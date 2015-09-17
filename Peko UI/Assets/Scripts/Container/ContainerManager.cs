@@ -84,6 +84,7 @@ public class ContainerManager : MonoBehaviour {
 	// Inventory & character pannels
 	GameObject inventoryPanel;
 	GameObject characterPanel;
+	GameObject craftingPanel;
 	GameObject itemDestroyPanel;
 
 	// Database
@@ -127,6 +128,7 @@ public class ContainerManager : MonoBehaviour {
 
 		inventoryPanel = GameObject.Find("InventoryPanel");
 		characterPanel = GameObject.Find("CharacterPanel");
+		craftingPanel = GameObject.Find("CraftingPanel");
 		itemDestroyPanel = GameObject.Find("DestroyItemPanel");
 
 		itemDatabase = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
@@ -137,10 +139,6 @@ public class ContainerManager : MonoBehaviour {
 		lootPanel = GameObject.FindGameObjectWithTag("LootPanel");
 
 		holdingItemIcon = GameObject.Find("HoldingItemIcon");
-
-
-
-
 	}
 	
 	void Start () {
@@ -161,6 +159,7 @@ public class ContainerManager : MonoBehaviour {
 		lootPanel.SetActive(false);
 		inventoryPanel.SetActive(false);
 		characterPanel.SetActive(false);
+		craftingPanel.SetActive(false);
 		itemDestroyPanel.SetActive(false);
 		console.LogConsole("Welcome!");
 	}
@@ -186,6 +185,7 @@ public class ContainerManager : MonoBehaviour {
 		{
 			pannelsOpened.Add(inventoryPanel);
 			inventoryPanel.SetActive(true);
+			inventoryPanel.transform.SetAsLastSibling();
 		}
 	}
 
@@ -200,6 +200,22 @@ public class ContainerManager : MonoBehaviour {
 		{
 			pannelsOpened.Add(characterPanel);
 			characterPanel.SetActive(true);
+			characterPanel.transform.SetAsLastSibling();
+		}
+	}
+
+	public void OpenCloseCrafting()
+	{
+		if(craftingPanel.activeSelf)
+		{
+			pannelsOpened.Remove(craftingPanel);
+			craftingPanel.SetActive(false);
+		}
+		else
+		{
+			pannelsOpened.Add(craftingPanel);
+			craftingPanel.SetActive(true);
+			craftingPanel.transform.SetAsLastSibling();
 		}
 	}
 
