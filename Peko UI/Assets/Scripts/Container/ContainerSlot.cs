@@ -17,6 +17,16 @@ public class ContainerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		}
 	}
 
+	public bool IsOnDestroy {
+		get {
+			return isOnDestroy;
+		}
+		set {
+			isOnDestroy = value;
+		}
+	}
+
+	bool isOnDestroy;
 	Image icon;
 	Text amount;
 
@@ -62,11 +72,20 @@ public class ContainerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 			icon.enabled = true;
 		}
 
-		if(isDragging)
+		if(isDragging || isOnDestroy)
 		{
-			icon.color = draggedColor;
-			GetComponent<Image>().color = draggedColor;
+			ColorAsDragged();
 		}
+	}
+
+	public void ColorAsDragged(){
+		icon.color = draggedColor;
+		GetComponent<Image>().color = draggedColor;
+	}
+
+	public void ColorAsNormal(){
+		icon.color = normalColor;
+		GetComponent<Image>().color = normalColor;
 	}
 	
 	public void OnPointerEnter (PointerEventData eventData)
@@ -90,6 +109,13 @@ public class ContainerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 		if(eventData.button.Equals(PointerEventData.InputButton.Right))
 		{
+			Debug.Log("WTF?");
+			Debug.Log(clicked.ItemType);
+			Debug.Log(clicked.ItemAmount);
+
+			if(isOnDestroy)
+				return;
+
 			clicked.Use(this);
 			if(clicked.ItemAmount < 1)
 			{
@@ -140,15 +166,22 @@ public class ContainerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		ContainerManager.Instance.HideHoldingItemIcon();
 		isDragging = false;
 
-		icon.color = normalColor;
-		GetComponent<Image>().color = normalColor;
+		ColorAsNormal();
 
 		if(eventData.pointerEnter != null && eventData.pointerEnter.tag == "ContainerSlot")
 		{
-			ContainerManager.Instance.Swap(this, eventData.pointerEnter.GetComponent<ContainerSlot>());
+			if(container.containerItems[id].ItemType == ItemType.CURRENCY && eventData.pointerEnter.GetComponent<ContainerSlot>().Container.IsInventory)
+			{
+				ContainerManager.Instance.AddMoney(container.containerItems[id].ItemAmount * container.containerItems[id].ItemCost);
+				container.containerItems[id] = new Item();
+			}
+			else if (container.containerItems[id].ItemType != ItemType.CURRENCY)
+			{
+				ContainerManager.Instance.Swap(this, eventData.pointerEnter.GetComponent<ContainerSlot>());
+			}
 			ContainerManager.Instance.DraggingItem = null;
 		}
-		else if(eventData.pointerEnter != null && eventData.pointerEnter.tag == "HotKeyBarSlot")
+		else if(eventData.pointerEnter != null && eventData.pointerEnter.tag == "HotKeyBarSlot" && this.container.IsInventory)
 		{
 			eventData.pointerEnter.GetComponent<HotKeyBarSlot>().Item = ContainerManager.Instance.DraggingItem;
 			ContainerManager.Instance.DraggingItem = null;
@@ -157,6 +190,11 @@ public class ContainerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		{
 			ContainerManager.Instance.WearItem(this, eventData.pointerEnter.GetComponent<CharacterEquipmentSlot>());
 			ContainerManager.Instance.DraggingItem = null;
+		}
+		else if(eventData.pointerEnter == null)
+		{
+			ContainerManager.Instance.DropItem(this);
+			isOnDestroy = true;
 		}
 
 	}

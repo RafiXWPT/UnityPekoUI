@@ -12,6 +12,8 @@ TagManager:
   - CharacterEquipmentSlot
   - CharacterEquipment
   - GoldCountPanel
+  - MonsterDatabase
+  - LootPanel
   layers:
   - Default
   - TransparentFX

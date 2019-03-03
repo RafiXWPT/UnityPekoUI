@@ -4,7 +4,7 @@ using System.Linq;
 
 [System.Serializable]
 public class ItemDatabase : MonoBehaviour {
-
+	
 	[SerializeField]
 	List<Equipment> equipmentContainer;
 	[SerializeField]
@@ -50,13 +50,16 @@ public class ItemDatabase : MonoBehaviour {
 		}
 	}
 
-	void Start()
+	void Awake()
 	{
 		equipmentContainer = new List<Equipment>();
 		weaponsContainer = new List<Weapon>();
 		consumablesContainer = new List<Consumable>();
 		currencyContainer = new List<Currency>();
+	}
 
+	void Start()
+	{
 		// CURRENCY
 		currencyContainer.Add(new Currency(0,	"Brone Coin",	"I_BronzeCoin", "Item",	"A little shining bronze coin.",	true,	999,	ItemType.CURRENCY,	ItemQuality.COMMON,	1));
 		currencyContainer.Add(new Currency(1,	"Silver Coin",	"I_SilverCoin", "Item",	"A little shining silver coin.",	true,	999,	ItemType.CURRENCY,	ItemQuality.COMMON,	100));

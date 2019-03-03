@@ -6,7 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 public class ContainerManager : MonoBehaviour {
-
+	
 	#region instance
 	private static ContainerManager instance;
 	public static ContainerManager Instance {
@@ -46,21 +46,12 @@ public class ContainerManager : MonoBehaviour {
 		}
 	}
 
-	public bool IsInventoryOpen {
+	public bool IsLootPanelOpen {
 		get {
-			return isInventoryOpen;
+			return isLootPanelOpen;
 		}
 		set {
-			isInventoryOpen = value;
-		}
-	}
-
-	public bool IsCharacterOpen {
-		get {
-			return isCharacterOpen;
-		}
-		set {
-			isCharacterOpen = value;
+			isLootPanelOpen = value;
 		}
 	}
 
@@ -75,11 +66,26 @@ public class ContainerManager : MonoBehaviour {
 			return console;
 		}
 	}
+
+	public List<GameObject> PannelsOpened {
+		get {
+			return pannelsOpened;
+		}
+		set {
+			pannelsOpened = value;
+		}
+	}
+
 	#endregion
 
 	// Inventory Control
-	bool isInventoryOpen;
-	bool isCharacterOpen;
+	bool isLootPanelOpen;
+
+	// Inventory & character pannels
+	GameObject inventoryPanel;
+	GameObject characterPanel;
+	GameObject craftingPanel;
+	GameObject itemDestroyPanel;
 
 	// Database
 	ItemDatabase itemDatabase;
@@ -102,25 +108,46 @@ public class ContainerManager : MonoBehaviour {
 	CharacterEquipment characterEquipment;
 	CharacterEquipmentSlot[] eqSlots;
 
+	// LootPanel
+	GameObject lootPanel;
+
+	// Inventory
+	Container inventory;
+
 	// Gold Panel
 	GameObject goldCountPanel;
 	Text[] currencyCount;
 	int money;
-	
+
+	// PannelsOpenHierarchy
+	List<GameObject> pannelsOpened;
+
 	void Awake()
 	{
+		pannelsOpened = new List<GameObject>();
+
+		inventoryPanel = GameObject.Find("InventoryPanel");
+		characterPanel = GameObject.Find("CharacterPanel");
+		craftingPanel = GameObject.Find("CraftingPanel");
+		itemDestroyPanel = GameObject.Find("DestroyItemPanel");
+
 		itemDatabase = GameObject.FindGameObjectWithTag("ItemDatabase").GetComponent<ItemDatabase>();
-		characterEquipment = GameObject.FindGameObjectWithTag("CharacterEquipment").GetComponent<CharacterEquipment>();
+
 		toolTip = GameObject.FindGameObjectWithTag("ToolTip");
 		goldCountPanel = GameObject.FindGameObjectWithTag("GoldCountPanel");
 
-		holdingItemIcon = GameObject.Find("HoldingItemIcon");
+		lootPanel = GameObject.FindGameObjectWithTag("LootPanel");
 
-		eqSlots = FindObjectsOfType<CharacterEquipmentSlot>();
-		console = FindObjectOfType<Console>();
+		holdingItemIcon = GameObject.Find("HoldingItemIcon");
 	}
 	
 	void Start () {
+		characterEquipment = GameObject.FindGameObjectWithTag("CharacterEquipment").GetComponent<CharacterEquipment>();
+		inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Container>();
+
+		eqSlots = FindObjectsOfType<CharacterEquipmentSlot>();
+		console = FindObjectOfType<Console>();
+
 		isDragging = false;
 		draggingItem = null;
 
@@ -129,7 +156,129 @@ public class ContainerManager : MonoBehaviour {
 
 		currencyCount = goldCountPanel.GetComponentsInChildren<Text>();
 
+		lootPanel.SetActive(false);
+		inventoryPanel.SetActive(false);
+		characterPanel.SetActive(false);
+		craftingPanel.SetActive(false);
+		itemDestroyPanel.SetActive(false);
 		console.LogConsole("Welcome!");
+	}
+
+	public void DropItem(ContainerSlot itemToDrop)
+	{
+		itemDestroyPanel.SetActive(true);
+		DestroyItemWindow destroyWindow = itemDestroyPanel.GetComponent<DestroyItemWindow>();
+		destroyWindow.StopCoroutine("WindowTimer");
+		destroyWindow.itemToDrop = itemToDrop;
+		destroyWindow.SetUp();
+		destroyWindow.StartCoroutine("WindowTimer");
+	}
+
+	public void OpenCloseInventory()
+	{
+		if(inventoryPanel.activeSelf)
+		{
+			pannelsOpened.Remove(inventoryPanel);
+			inventoryPanel.SetActive(false);
+		}
+		else
+		{
+			pannelsOpened.Add(inventoryPanel);
+			inventoryPanel.SetActive(true);
+			inventoryPanel.transform.SetAsLastSibling();
+		}
+	}
+
+	public void OpenCloseCharacter()
+	{
+		if(characterPanel.activeSelf)
+		{
+			pannelsOpened.Remove(characterPanel);
+			characterPanel.SetActive(false);
+		}
+		else
+		{
+			pannelsOpened.Add(characterPanel);
+			characterPanel.SetActive(true);
+			characterPanel.transform.SetAsLastSibling();
+		}
+	}
+
+	public void OpenCloseCrafting()
+	{
+		if(craftingPanel.activeSelf)
+		{
+			pannelsOpened.Remove(craftingPanel);
+			craftingPanel.SetActive(false);
+		}
+		else
+		{
+			pannelsOpened.Add(craftingPanel);
+			craftingPanel.SetActive(true);
+			craftingPanel.transform.SetAsLastSibling();
+		}
+	}
+
+	public void CloseLastPanel()
+	{
+		if(pannelsOpened.Count > 0)
+		{
+			pannelsOpened[pannelsOpened.Count-1].SetActive(false);
+			pannelsOpened.RemoveAt(pannelsOpened.Count-1);
+		}
+		else
+		{
+			Debug.Log("Otwieram Main Menu.");
+		}
+	}
+
+	public void CreateLootWindow(List<Item> items)
+	{
+		pannelsOpened.Add(lootPanel);
+		lootPanel.SetActive(true);
+		lootPanel.GetComponentInChildren<Container>().containerItems = items;
+		lootPanel.GetComponentInChildren<Container>().ReLoad();
+	}
+
+	public void DestroyLootWindow()
+	{
+		pannelsOpened.Remove(lootPanel);
+		lootPanel.SetActive(false);
+		isLootPanelOpen = false;
+	}
+
+	public void CollectAll()
+	{
+		Container loot = lootPanel.GetComponentInChildren<Container>();
+
+		for(int i = 0; i < loot.containerItems.Count; i++)
+		{
+			if(loot.containerItems[i].ItemType != ItemType.NULL)
+			{
+				if(loot.containerItems[i].ItemType == ItemType.CURRENCY)
+				{
+					AddMoney(loot.containerItems[i].ItemAmount*loot.containerItems[i].ItemCost);
+					loot.containerItems[i] = new Item();
+				}
+				else
+				{
+					if(loot.containerItems[i].IsStackable)
+					{
+						if(inventory.AddItemToContainer(loot.containerItems[i].ItemId,loot.containerItems[i].ItemAmount))
+						{
+							loot.containerItems[i] = new Item();
+						}
+					}
+					else
+					{
+						if(inventory.AddItemToContainer(loot.containerItems[i].ItemId,1))
+						{
+							loot.containerItems[i] = new Item();
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void ShowHoldingItemIcon(Vector2 position)

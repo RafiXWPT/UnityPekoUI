@@ -8,13 +8,10 @@ public class Console : MonoBehaviour {
 	public GameObject line;
 	List<GameObject> messages;
 	int lineCount = 0;
-	
-	void Start () {
-		messages = new List<GameObject>();
-	}
 
-	void Update () {
-	
+	void Awake()
+	{
+		messages = new List<GameObject>();
 	}
 
 	public void LogConsole(string message)

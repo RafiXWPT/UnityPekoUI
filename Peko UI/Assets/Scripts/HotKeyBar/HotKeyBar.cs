@@ -7,14 +7,16 @@ public class HotKeyBar : MonoBehaviour {
 
 	public GameObject slot;
 	List<GameObject> slotObjects;
-	
-	void Start () {
 
+	void Awake() {
 		slotObjects = new List<GameObject>();
+	}
+
+	void Start () {
 
 		for(int i = 0; i < 10; i ++)
 		{
-			GameObject tmpSlot = Instantiate(slot) as GameObject;
+			GameObject tmpSlot = (GameObject)Instantiate(slot);
 			tmpSlot.name = "Slot"+i;
 			tmpSlot.GetComponent<HotKeyBarSlot>().id = i;
 			tmpSlot.transform.SetParent(this.transform);
